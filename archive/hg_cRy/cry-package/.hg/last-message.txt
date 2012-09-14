@@ -1,0 +1,2 @@
+Added class MergedReflection with related methods and friendly constructors
+

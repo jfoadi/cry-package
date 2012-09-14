@@ -1,0 +1,18 @@
+
+Some lines of all R code in this directory depend on the specific local file structure.
+I need to find out how to make them more general, so that when people load this code as
+a package, the code will still work.
+
+1) FILE "lattice.R"
+   Function "adapt_map" is not finished.
+
+2) FILE "mtz.R"
+   "syminfo.lib" file needs to be loaded in a general way.
+   "symmetry.R" module needs to be loaded in a general way.
+
+3) FILE "symmetry.R"
+   "syminfo.lib" file needs to be loaded in a general way.
+   "miscellaneous.R" module needs to be loaded in a general way.
+
+4) FILE "fourier.R"
+   "miscellaneous.R" module needs to be loaded in a general way.

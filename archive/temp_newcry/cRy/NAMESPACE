@@ -1,0 +1,23 @@
+# Angle
+exportClasses("Angle")
+exportMethods("degToRad","radToDeg")
+
+# UnitCell and ReciprocalUnitCell
+exportClasses("UnitCell","ReciprocalUnitCell")
+exportMethods("computeCellVolume")                            # Applied to both UnitCell and ReciprocalUnitCell
+exportMethods("computeReciprocalUnitCell","computeUnitCell")
+
+# BravaisType and Lattice
+exportClasses("BravaisType","Lattice")
+exportMethods("getCentringOps")                               # Applied to both Lattice and Symmetry
+
+# Generic functions with associated methods
+exportMethods("isCorrect","getParameters","getData","getFields")
+
+# Standard methods
+exportMethods("print","[")
+
+# Other functions
+#export("createAngle","createUnitCell","createReciprocalUnitCell","createFromFile","createBravaisType",
+export("createAngle","UnitCell","createReciprocalUnitCell","createFromFile","createBravaisType",
+       "createLattice")

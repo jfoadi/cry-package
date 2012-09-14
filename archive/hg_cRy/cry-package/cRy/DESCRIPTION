@@ -1,0 +1,11 @@
+Package: cRy
+Type: Package
+Title: R package for macromolecular crystallography.
+Version: 0.1
+Date: 2011-09-09
+Author: James Foadi, David G. Waterman
+Maintainer: James Foadi, David G. Waterman <j.foadi@imperial.ac.uk>,<david.waterman@stfc.ac.uk>
+Suggests: rgl
+Description: cRy reads and writes files commonly used in macromolecular crystallography. In addition it carries out the most common crystallographic operations.
+License: GPL-2
+LazyLoad: yes

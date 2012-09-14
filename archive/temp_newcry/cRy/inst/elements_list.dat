@@ -1,0 +1,114 @@
+symbol       name     atomic_number
+ H       hydrogen           1
+HE       helyum             2
+LI       lithium            3
+BE       beryllium          4
+ B       boron              5
+ C       carbon             6
+ N       nitrogen           7
+ O       oxygen             8
+ F       fluorine           9
+NE       neon              10
+Na       sodium            11
+MG       magnesium         12
+AL       alluminium        13
+SI       silicon           14
+ P       phosphorus        15
+ S       sulphur           16
+CL       chlorine          17
+AR       argon             18
+ K       potassium         19
+CA       calcium           20
+SC       scandium          21
+TI       titanium          22
+ V       vanadium          23
+CR       chromium          24
+MN       manganese         25
+FE       iron              26
+CO       cobalt            27
+NI       nichel            28
+CU       copper            29
+ZN       zinc              30
+GA       gallium           31
+GE       germanium         32
+AS       arsenic           33
+SE       selenium          34
+BR       bromine           35
+KR       krypton           36
+RB       rubidium          37
+SR       strontium         38
+ Y       yttrium           39
+ZR       zirconium         40
+NB       niobium           41
+MO       molybdenum        42
+TC       technetium        43
+RU       ruthenium         44
+RH       rhodium           45
+PD       palladium         46
+AG       silver            47
+CD       cadmium           48
+IN       indium            49
+SN       tin               50
+SB       antimony          51
+TE       tellurium         52
+ I       iodine            53
+XE       xenon             54
+CS       caesium           55
+BA       barium            56
+LA       lanthanum         57 
+CE       cerium            58
+PR       praseodynium      59
+ND       neodynium         60
+PM       promethium        61
+SM       samarium          62
+EU       europium          63
+GD       gadolinium        64
+TB       terbium           65
+DY       disprosium        66
+HO       holmium           67
+ER       erbium            68
+TM       thulium           69
+YB       ytterbium         70
+LU       lutetium          71
+HF       hafnium           72
+TA       tantalium         73
+ W       tungsten          74
+RE       rhenium           75
+OS       osmium            76
+IR       iridium           77
+PT       platinum          78
+AU       gold              79
+HG       mercury           80
+TL       thallium          81
+PB       lead              82
+BI       bismuth           83
+PO       polonium          84
+AT       astatine          85
+RN       radon             86
+FR       francium          87
+RA       radium            88
+AC       actinium          89
+TH       thorium           90
+PA       protactinium      91
+ U       uranium           92
+NP       neptunium         93
+PU       plutonium         94
+AM       americum          95
+CM       curium            96
+BK       berkelium         97
+CF       californium       98
+ES       einstenium        99
+FM       fermium          100
+MD       mendelevium      101
+NO       nobelium         102
+LR       lawrencium       103
+RF       rutherfordium    104
+DB       dubnium          105
+SG       seaborgium       106
+BH       bohrium          107
+HS       hassium          108
+MT       meitnerium       109
+DS       darmstadtium     110
+RG       roentgenium      111
+CN       copernicum       112
+

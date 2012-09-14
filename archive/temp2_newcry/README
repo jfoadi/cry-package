@@ -1,0 +1,63 @@
+These are the general guidelines for the classes and methods for the package cRy we are trying to develop.
+
+1) Everything related to a class (or to reated classes) will be included in a single module. So, for instance,
+we'll have a "angle_S4.R" which includes class "Angle", a "cell_S4.R" which includes both class "UnitCell"
+and class "ReciprocalUnitCell", etc.
+
+2) Generic functions that can be applied to methods for several classes will be all written in module "AllGeneric.R".
+Other generic functions will be included in individual modules.
+
+3) Each class will include a "validity=function(object)" part where the validity of the object being defined
+is tested whenever a "new" function is called. This fuction returns a sentence whenever conditions of validity are
+not met. At the very end the function returns TRUE.
+
+4) !!! Warning !!!
+After having installed R.15.1 I had the following error message when trying to build cRy:
+
+* checking for file ‘cRy/DESCRIPTION’ ... OK
+* preparing ‘cRy’:
+* checking DESCRIPTION meta-information ... OK
+* checking for LF line-endings in source and make files
+* checking for empty or unneeded directories
+* looking to see if a ‘data/datalist’ file should be added
+Error in if (any(update)) { : missing value where TRUE/FALSE needed
+Execution halted
+
+After having browsed the internet I found that the issue is related in some misteryous way to the way sysdata.rda is built.
+The way round it is to use the different command to build:   
+
+R CMD BUILD --resave-data="best" cRy
+
+which, when executed, gives:
+
+* checking for file ‘cRy/DESCRIPTION’ ... OK
+* preparing ‘cRy’:
+* checking DESCRIPTION meta-information ... OK
+* checking for LF line-endings in source and make files
+* checking for empty or unneeded directories
+* looking to see if a ‘data/datalist’ file should be added
+* re-saving image files
+  NB: this package now depends on R (>= 2.10)
+* building 'cRy_0.1.tar.gz'
+
+Then, the install R CMD INSTALL cRy_0.1.tar.gz
+gives:
+
+* installing to library ‘/Library/Frameworks/R.framework/Versions/2.15/Resources/library’
+* installing *source* package ‘cRy’ ...
+** R
+** inst
+** preparing package for lazy loading
+Creating a generic function for ‘print’ from package ‘base’ in package ‘cRy’
+Warning: undefined slot classes in definition of "MergedReflections": symmetry(class "Symmetry")
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+*** arch - i386
+*** arch - x86_64
+
+* DONE (cRy)
+
+The warning is actually not an error. It simply means that until symmetry is not defined, it will not be considered an object of class Symmetry.
+I don't know at present how to get round this issue, although it does not bother me too much.
