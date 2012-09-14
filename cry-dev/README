@@ -1,5 +1,7 @@
 These are the general guidelines for the classes and methods for the package cRy we are trying to develop.
 
+These instructions are out of date and should be modified accordingly.
+
 1) Everything related to a class (or to reated classes) will be included in a single module. So, for instance,
 we'll have a "angle_S4.R" which includes class "Angle", a "cell_S4.R" which includes both class "UnitCell"
 and class "ReciprocalUnitCell", etc.
