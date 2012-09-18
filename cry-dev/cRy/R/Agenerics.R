@@ -84,4 +84,16 @@ setGeneric(
 
 ## For Angle class
 #
-# *** [degToRad] *** (comment?)
+# *** [degToRad] *** Convert degrees to radians. Angle object as input.
+setGeneric(
+           name="degToRad",
+           def=function(object){standardGeneric("degToRad")} 
+          )
+          
+#
+# *** [radToDeg] *** Convert radians to degrees. Angle object as input.
+setGeneric(
+           name="radToDeg",
+           def=function(object){standardGeneric("radToDeg")}
+          )
+          
