@@ -2,8 +2,6 @@
 ###################################################################
 ### This module is part of the cRy package for crystallography. ###
 ### Authors: J. Foadi & D. G. Waterman                          ###
-### MPL - Imperial College London / Diamond Light Source Ltd    ###
-### CCP4 - Research Complex at Harwell                          ###
 ###                                                             ###
 ### Classes not needing anything else to function. Thus, they   ###
 ### are collated at the top.                                    ###

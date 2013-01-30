@@ -2,8 +2,6 @@
 ###################################################################
 ### This module is part of the cRy package for crystallography. ###
 ### Authors: J. Foadi & D. G. Waterman                          ###
-### MPL - Imperial College London / Diamond Light Source Ltd    ###
-### CCP4 - Research Complex at Harwell                          ###
 ###                                                             ###
 ### All generics for methods included in methods code.          ###
 ###################################################################
@@ -80,8 +78,10 @@ setGeneric(
            def=function(x1,x2,x3,x4,x5,x6,...){standardGeneric("lattice")}
           )
 
-## Other generics
-
-## For Angle class
+## For Symmetry class
 #
-# *** [degToRad] *** (comment?)
+# *** [symmetry] *** 1 or 2 possible variables as input (symmetry symbol, symmetry number and symmetry setting, file name) 
+setGeneric(
+           name="symmetry",
+           def=function(x1,x2,...){standardGeneric("symmetry")}
+          )

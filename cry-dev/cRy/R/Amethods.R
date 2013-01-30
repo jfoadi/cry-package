@@ -2,8 +2,6 @@
 ###################################################################
 ### This module is part of the cRy package for crystallography. ###
 ### Authors: J. Foadi & D. G. Waterman                          ###
-### MPL - Imperial College London / Diamond Light Source Ltd    ###
-### CCP4 - Research Complex at Harwell                          ###
 ###                                                             ###
 ### Methods collated at the top of code.                        ###
 ###################################################################
@@ -1453,7 +1451,7 @@ setMethod(
            }
 
            # Check file type (only MTZ, PDB allowed at present)
-           tipo <- NULL
+           #tipo <- NULL
            if (.try_read_MTZ(file))                                      # MTZ case
            {
             # Load mtz file into a named list
@@ -1486,7 +1484,8 @@ setMethod(
            }
 
            # Stop if file is not in one of allowed formats
-           if (is.null(tipo)) stop("This data file is corrupted, or in a format not covered by this package")
+           #if (is.null(tipo)) stop("This data file is corrupted, or in a format not covered by this package")
+           stop("This data file is corrupted, or in a format not covered by this package")
           }
          )
 
@@ -1621,7 +1620,7 @@ setMethod(
            }
 
            # Check file type (only MTZ, PDB allowed at present)
-           tipo <- NULL
+           #tipo <- NULL
            if (.try_read_MTZ(file))                                      # MTZ case
            {
             # Load mtz file into a named list
@@ -1676,7 +1675,8 @@ setMethod(
            }
 
            # Stop if file is not in one of allowed formats
-           if (is.null(tipo)) stop("This data file is corrupted, or in a format not covered by this package")
+           #if (is.null(tipo)) stop("This data file is corrupted, or in a format not covered by this package")
+           stop("This data file is corrupted, or in a format not covered by this package")
           }
          )
 
@@ -1763,7 +1763,8 @@ setMethod(
              }
 
              # Stop if file is not in one of allowed formats
-             if (is.null(tipo)) stop("This data file is corrupted, or in a format not covered by this package")
+             #if (is.null(tipo)) stop("This data file is corrupted, or in a format not covered by this package")
+             stop("This data file is corrupted, or in a format not covered by this package")
             }
             if (!ans)
             {
@@ -1846,7 +1847,7 @@ setMethod(
            if ((abs(b-c) < 0.000001 & abs(b-a) >= 0.000001) & (abs(aa-120) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001)) bbl <- "hP"
 
            # Rombohedral
-           if ((abs(a-b) < 0.000001 & abs(a-c) < 0.000001) & (abs(aa-bb) < 0.000001 & abs(aa-cc) < 0.000001)) bbl <- "hR"
+           if ((abs(a-b) < 0.000001 & abs(a-c) < 0.000001) & (abs(aa-bb) < 0.000001 & abs(aa-cc) < 0.000001) & abs(aa-90) > 0.000001) bbl <- "hR"
 
            # Orthorombic
            if ((abs(a-b) > 0.000001 & abs(a-c) > 0.000001 & abs(b-c) > 0.000001) &
@@ -1927,6 +1928,308 @@ setMethod(
            return(object)
           }
          )
+#
+# Create a Lattice object starting from 6 cell parameters (and associating arbitrary, but compatible space group)
+setMethod(
+          f="lattice",
+          signature=c("numeric","numeric","numeric","numeric","numeric","numeric"),
+          function(x1,x2,x3,x4,x5,x6,...)
+          {
+           # Create UnitCell object
+           cell <- new("UnitCell",a=x1,b=x2,c=x3,alpha=new("Angle",ang=x4,rad_flag=FALSE),beta=new("Angle",ang=x5,rad_flag=FALSE),gamma=new("Angle",ang=x6,rad_flag=FALSE))
 
+           # Now create a BravaisType object, compatible with cell parameters
+           a <- x1
+           b <- x2
+           c <- x3
+           aa <- x4
+           bb <- x5
+           cc <- x6
 
-######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER #########
+           # Default value for bbl is triclinic
+           bbl <- "aP"
+
+           # Cubic
+           if (abs(a-b) < 0.000001 & abs(a-c) < 0.000001 & abs(aa-90) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001) bbl <- "cP"
+
+           # Tetragonal
+           if ((abs(a-b) < 0.000001 & abs(a-c) >= 0.000001) & (abs(aa-90) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001)) bbl <- "tP"
+           if ((abs(a-c) < 0.000001 & abs(a-b) >= 0.000001) & (abs(aa-90) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001)) bbl <- "tP"
+           if ((abs(b-c) < 0.000001 & abs(b-a) >= 0.000001) & (abs(aa-90) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001)) bbl <- "tP"
+
+           # Hexagonal
+           if ((abs(a-b) < 0.000001 & abs(a-c) >= 0.000001) & (abs(aa-90) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-120) < 0.000001)) bbl <- "hP"
+           if ((abs(a-c) < 0.000001 & abs(a-b) >= 0.000001) & (abs(aa-90) < 0.000001 & abs(bb-120) < 0.000001 & abs(cc-90) < 0.000001)) bbl <- "hP"
+           if ((abs(b-c) < 0.000001 & abs(b-a) >= 0.000001) & (abs(aa-120) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001)) bbl <- "hP"
+
+           # Rombohedral
+           if ((abs(a-b) < 0.000001 & abs(a-c) < 0.000001) & (abs(aa-bb) < 0.000001 & abs(aa-cc) < 0.000001) & abs(aa-90) > 0.000001) bbl <- "hR"
+
+           # Orthorombic
+           if ((abs(a-b) > 0.000001 & abs(a-c) > 0.000001 & abs(b-c) > 0.000001) &
+               (abs(aa-90) < 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001)) bbl <- "oP"
+
+           # Monoclinic
+           if (abs(aa-120) > 0.000001 & abs(aa-90) > 0.000001 & abs(bb-90) < 0.000001 & abs(cc-90) < 0.000001) bbl <- "mP"
+           if (abs(bb-120) > 0.000001 & abs(bb-90) > 0.000001 & abs(aa-90) < 0.000001 & abs(cc-90) < 0.000001) bbl <- "mP"
+           if (abs(cc-120) > 0.000001 & abs(cc-90) > 0.000001 & abs(aa-90) < 0.000001 & abs(bb-90) < 0.000001) bbl <- "mP"
+
+           # Create BravaisType object
+           bl <- new("BravaisType",bl=bbl)
+
+           # Now create Lattice object
+           object <- new("Lattice",cell=cell,bl=bl)
+
+           return(object)
+          }
+         )
+#
+# Create a Lattice object starting from a file or a Bravais type as a character string.
+setMethod(
+          f="lattice",
+          signature=c("character","missing","missing","missing","missing","missing"),
+          function(x1,x2,x3,x4,x5,x6,...)
+          {
+           # File name or symmetry symbol?
+           ans <- file.exists(x1)
+           if (!ans)
+           {
+            if (x1 != "aP" & x1 != "mS" & x1 != "mA" & x1 != "mB" & x1 != "mC" & x1 != "mI" & x1 != "mP" &
+                x1 != "oP" & x1 != "oS" & x1 != "oA" & x1 != "oB" & x1 != "oC" & x1 != "oI" & x1 != "oF" &
+                x1 != "tP" & x1 != "tI" &
+                x1 != "hP" & x1 != "hR" &
+                x1 != "cP" & x1 != "cI" & x1 != "cF")
+            {
+             stop("Input character is neither a valid file name, nor a valid Bravais type symbol")
+            }
+
+            # Create BravaisType object
+            bl <- new("BravaisType",bl=x1)
+
+            # Now create an arbitrary, compatible unit cell
+
+            # Cubic (default 1 1 1 90 90 90)
+            bbl <- x1
+            if (bbl == "cP" | bbl == "cI" | bbl == "cF") cella <- new(Class="UnitCell",a=1,b=1,c=1,
+                alpha=new(Class="Angle",ang=90,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=90,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=90,rad_flag=FALSE))
+
+            # Hexagonal
+            if (bbl == "hP") cella <- new(Class="UnitCell",a=1,b=1,c=2,
+                alpha=new(Class="Angle",ang=90,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=90,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=120,rad_flag=FALSE))
+ 
+            # Rombohedral
+            if (bbl == "hR") cella <- new(Class="UnitCell",a=1,b=1,c=1,
+                alpha=new(Class="Angle",ang=80,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=80,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=80,rad_flag=FALSE))
+ 
+            # Tetragonal
+            if (bbl == "tP") cella <- new(Class="UnitCell",a=1,b=1,c=2,
+                alpha=new(Class="Angle",ang=90,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=90,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=90,rad_flag=FALSE))
+ 
+            # Orthorombic
+            if (bbl == "oP") cella <- new(Class="UnitCell",a=1,b=2,c=3,
+                alpha=new(Class="Angle",ang=90,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=90,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=90,rad_flag=FALSE))
+ 
+            # Monoclinic
+            if (bbl == "mP" | bbl == "mS" | bbl == "mI" | bbl == "mA" | bbl == "mC") cella <- new(Class="UnitCell",a=1,b=2,c=3,
+                alpha=new(Class="Angle",ang=90,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=110,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=90,rad_flag=FALSE))
+            if (bbl == "mB") cella <- new(Class="UnitCell",a=1,b=2,c=3,
+                alpha=new(Class="Angle",ang=110,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=90,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=90,rad_flag=FALSE))
+
+            # Triclinic
+            if (bbl == "aP") cella <- new(Class="UnitCell",a=1,b=2,c=3,
+                alpha=new(Class="Angle",ang=80,rad_flag=FALSE),
+                beta=new(Class="Angle",ang=70,rad_flag=FALSE),
+                gamma=new(Class="Angle",ang=75,rad_flag=FALSE))
+
+            # Create lattice object
+            object <- new("Lattice",cell=cella,bl=bl)
+
+            return(object)
+           }
+
+           # x1 has been recognised as an existing file. Check it has a valid format
+
+           # Check file type (only MTZ, PDB allowed at present)
+           if (.try_read_MTZ(x1))                                      # MTZ case
+           {
+            # Load mtz file into a named list
+            lmtz <- .readMTZ(x1,messages=FALSE)
+
+            # Extract cell parameters and create UnitCell object
+            tmp <- lmtz$header$DCELL
+            cell <- new("UnitCell",a=tmp$a,b=tmp$b,c=tmp$c,alpha=new("Angle",ang=tmp$alpha,rad_flag=FALSE),beta=new("Angle",ang=tmp$beta,rad_flag=FALSE),
+                                                           gamma=new("Angle",ang=tmp$gamma,rad_flag=FALSE))
+
+            # Extract symmetry symbol
+            tmp <- lmtz$header$SYMINF[[5]]
+            ini <- 2
+            fin <- nchar(tmp)-1
+            xHM <- substr(tmp,ini,fin)
+            xHM <- .findHM(xHM)
+
+            # Check this is a valid symbol
+            tmp <- .translate_SG(xHM,SG_in="xHM",SG_out="number")
+            if (!tmp$ans) stop("The symmetry symbol string extracted from this MTZ file is not a valid symmetry symbol")
+
+            # Derive Bravais type
+            SG_name <- xHM
+            sgn <- tmp$msg
+
+            # Build bl string in two steps
+            b <- .crystal_system(sgn)
+            if (b == "TRICLINIC") b <- "a"
+            if (b == "MONOCLINIC") b <- "m"
+            if (b == "ORTHOROMBIC") b <- "o"
+            if (b == "TETRAGONAL") b <- "t"
+            if (b == "TRIGONAL") b <- "h"
+            if (b == "HEXAGONAL") b <- "h"
+            if (b == "CUBIC") b <- "c"
+            l <- substr(SG_name,1,1)
+            bbl <- paste(b,l,sep="")
+            bl <- new("BravaisType",bl=bbl)
+
+            # Finally: the Lattice object
+            object <- new("Lattice",cell=cell,bl=bl)
+
+            return(object)
+           }
+          }
+         )
+#
+# Create a Lattice object starting from no information (default lattice is cP, cell of side 1)
+setMethod(
+          f="lattice",
+          signature=c("missing","missing","missing","missing","missing","missing"),
+          function(x1,x2,x3,x4,x5,x6,...)
+          {
+           # First create UnitCell object
+           cell <- new("UnitCell",a=1,b=1,c=1,alpha=new("Angle",ang=90,rad_flag=FALSE),beta=new("Angle",ang=90,rad_flag=FALSE),gamma=new("Angle",ang=90,rad_flag=FALSE))
+
+           # Then create BravaisType object
+           bl <- new("BravaisType",bl="cP")
+
+           # Now join the two to create a Lattice object
+           object <- new("Lattice",cell=cell,bl=bl)
+
+           return(object)
+          }
+         )
+
+## For Symmetry class
+#
+# Create a Symmetry object starting from a character string (sym_xHM or file name)
+# File covered are: MTZ, PDB
+setMethod(
+          f="symmetry",
+          signature=c("character","missing"),
+          function(x1,x2,...)
+          {
+           # File name or symmetry symbol?
+           ans <- file.exists(x1)
+           if (!ans)
+           {
+            # It is not a file. Is it a symmetry symbol?
+            xHM <- .findHM(x1)
+            tmp <- .translate_SG(xHM,SG_in="xHM",SG_out="number")
+            if (!tmp$ans) stop("The input character string is neither a valid symmetry symbol, nor an existing file")
+
+            # Character has been recognised as a valid symmetry symbol. Carry on creating the symmetry object.
+            object <- new("Symmetry",sym_xHM=xHM)
+
+            return(object)
+           }
+
+           # x1 has been recognised as an existing file. Check it has a valid format
+
+           # Check file type (only MTZ, PDB allowed at present)
+           if (.try_read_MTZ(x1))                                      # MTZ case
+           {
+            # Load mtz file into a named list
+            lmtz <- .readMTZ(x1,messages=FALSE)
+
+            # Extract symmetry symbol
+            tmp <- lmtz$header$SYMINF[[5]]
+            ini <- 2
+            fin <- nchar(tmp)-1
+            xHM <- substr(tmp,ini,fin)
+            xHM <- .findHM(xHM)
+
+            # Check this is a valid symbol
+            tmp <- .translate_SG(xHM,SG_in="xHM",SG_out="number")
+            if (!tmp$ans) stop("The symmetry symbol string extracted from this MTZ file is not a valid symmetry symbol")
+        
+            # Carry on creating Symmetry object
+            object <- new("Symmetry",sym_xHM=xHM)
+
+            return(object)
+           }
+           if (.try_read_PDB(x1))                                      # PDB case
+           {
+            # Load pdb file into a named list
+            lpdb <- .readPDB(x1)
+
+            # Extract symmetry symbol
+            xHM <- lpdb$cryst1$SG
+            xHM <- .findHM(xHM)
+
+            # Check this is a valid symbol
+            tmp <- .translate_SG(xHM,SG_in="xHM",SG_out="number")
+            if (!tmp$ans) stop("The symmetry symbol string extracted from this PDB file is not a valid symmetry symbol")
+        
+            # Carry on creating Symmetry object
+            object <- new("Symmetry",sym_xHM=xHM)
+
+            return(object)
+           }
+          }
+         )
+#
+# Create a Symmetry object starting from one number (setting assumed == 1)
+setMethod(
+          f="symmetry",
+          signature=c("numeric","missing"),
+          function(x1,x2,...)
+          {
+           # Extract xHM symbol
+           tmp <- .translate_SG(x1)
+           if (!tmp$ans) stop(tmp$msg)
+           xHM <- tmp$msg
+    
+           # Create Symmetry object
+           object <- new("Symmetry",sym_xHM=xHM)
+
+           return(object) 
+          }
+         )
+#
+# Create a Symmetry object starting from two numbers (symmetry number and setting number)
+setMethod(
+          f="symmetry",
+          signature=c("numeric","numeric"),
+          function(x1,x2,...)
+          {
+           # Extract xHM symbol
+           tmp <- .translate_SG(x1,setting=x2)
+           if (!tmp$ans) stop(tmp$msg)
+           xHM <- tmp$msg
+    
+           # Create Symmetry object
+           object <- new("Symmetry",sym_xHM=xHM)
+
+           return(object) 
+          }
+         )

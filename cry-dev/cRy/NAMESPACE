@@ -1,6 +1,6 @@
 exportClasses("Angle","UnitCell","ReciprocalUnitCell","BravaisType","Lattice","Symmetry")
 
-exportMethods("angle","unitcell","reciprocalunitcell","bravaistype","lattice")
+exportMethods("angle","unitcell","reciprocalunitcell","bravaistype","lattice","symmetry")
 exportMethods("[","print","show","getFields","getParameters","getData")
 
 ## To be deleted after package completion

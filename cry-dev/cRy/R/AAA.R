@@ -60,10 +60,9 @@
  if (SG_in == "xHM") value <- paste("symbol xHM  '",value,"'",sep="")
  if (SG_in == "old") value <- paste("symbol old  '",value,"'",sep="")
 
- # Read whole content of "syminfo.lib"
- #.SYMMETRY_file <- system.file("syminfo.lib",package="cRy")
- #syminfo <- scan(.SYMMETRY_file,what="character",sep="\n",quiet=TRUE)
+ # Content of syminfo.lib is automatically loaded with cRy package
  bsg <- grep(value,syminfo,fixed=TRUE)
+ 
 
  # Select correct one in the "number" case
  if (SG_in == "number")
@@ -93,6 +92,7 @@
  bini <- grep("begin_spacegroup",syminfo)
  prima <- bini[length(bini[bini < bsg])]
  dopo  <- bini[bini > bsg][1]-1   # Add 1 for those cases when prima = dopo
+ if (is.na(dopo)) dopo <- length(syminfo)
  if (SG_out == "number")
  {
   key <- "number"
@@ -288,9 +288,7 @@
  # Output is a list with all symmetry information
  # for the specific SG group, as contained in syminfo.lib.
 
- # Read whole content of "syminfo.lib"
- #.SYMMETRY_file <- system.file("syminfo.lib",package="cRy")
- #syminfo <- scan(.SYMMETRY_file,what="character",sep="\n",quiet=TRUE)
+ # Content of syminfo.lib is automatically loaded with cRy package
  bsg <- grep(SG,syminfo)
  bini <- grep("begin_spacegroup",syminfo)
  bend <- grep("end_spacegroup",syminfo)
@@ -423,14 +421,20 @@
  if (sym_xHM == "P 42/n c m") sym_xHM <- "P 42/n c m :1"
  if (sym_xHM == "I 41/a m d") sym_xHM <- "I 41/a m d :1"
  if (sym_xHM == "I 41/a c d") sym_xHM <- "I 41/a c d :1"
- if (sym_xHM == "R 3") sym_xHM <- "R 3 :H"
  if (sym_xHM == "H 3") sym_xHM <- "R 3 :H"
- if (sym_xHM == "R -3") sym_xHM <- "R -3 :H"
- if (sym_xHM == "R 3 2") sym_xHM <- "R 3 2 :H"
- if (sym_xHM == "R 3 m") sym_xHM <- "R 3 m :H"
- if (sym_xHM == "R 3 c") sym_xHM <- "R 3 c :H"
- if (sym_xHM == "R -3 m") sym_xHM <- "R -3 m :H"
- if (sym_xHM == "R -3 c") sym_xHM <- "R -3 c :H"
+ if (sym_xHM == "H -3") sym_xHM <- "R -3 :H"
+ if (sym_xHM == "H 3 2") sym_xHM <- "R 3 2 :H"
+ if (sym_xHM == "H 3 m") sym_xHM <- "R 3 m :H"
+ if (sym_xHM == "H 3 c") sym_xHM <- "R 3 c :H"
+ if (sym_xHM == "H -3 m") sym_xHM <- "R -3 m :H"
+ if (sym_xHM == "H -3 c") sym_xHM <- "R -3 c :H"
+ if (sym_xHM == "R 3") sym_xHM <- "R 3 :R"
+ if (sym_xHM == "R -3") sym_xHM <- "R -3 :R"
+ if (sym_xHM == "R 3 2") sym_xHM <- "R 3 2 :R"
+ if (sym_xHM == "R 3 m") sym_xHM <- "R 3 m :R"
+ if (sym_xHM == "R 3 c") sym_xHM <- "R 3 c :R"
+ if (sym_xHM == "R -3 m") sym_xHM <- "R -3 m :R"
+ if (sym_xHM == "R -3 c") sym_xHM <- "R -3 c :R"
  if (sym_xHM == "P n -3") sym_xHM <- "P n -3 :1"
  if (sym_xHM == "F d -3") sym_xHM <- "F d -3 :1"
  if (sym_xHM == "P n -3 n") sym_xHM <- "P n -3 n :1"
