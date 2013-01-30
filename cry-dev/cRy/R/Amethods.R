@@ -1980,6 +1980,7 @@ setMethod(
            # Now create Lattice object
            object <- new("Lattice",cell=cell,bl=bl)
 
+<<<<<<< HEAD
            return(object)
           }
          )
@@ -2232,4 +2233,71 @@ setMethod(
 
            return(object) 
           }
+=======
+######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER #########
+
+## For Angle class
+#
+# Convert an Angle object from representation in degrees to radians
+setMethod(
+          f="degToRad",
+          signature="Angle",
+          definition=function(object){
+                                      if (length(object@rad_flag) != 0)
+                                      { 
+                                       if (object@rad_flag) 
+                                       {
+                                        warning("Object of class Angle is already expressed in radians")
+                                        return(object)
+                                       }
+                                       if (length(object@ang) != 0)
+                                       {
+                                        object@ang <- (object@ang*pi/180)%%(2*pi)
+                                        object@rad_flag <- TRUE
+                                        return(object)
+                                       }
+                                       if (length(object@ang) == 0)
+                                       {
+                                        object@rad_flag <- TRUE
+                                        return(object)
+                                       }
+                                      }
+                                      if (length(object@rad_flag) == 0)
+                                      {
+                                       warning("This object of class Angle has not been expressed in either degrees or in radians.")
+                                       return(object)
+                                      }
+                                     }
+         )
+# Convert an Angle object from representation in radians to degrees
+setMethod(
+          f="radToDeg",
+          signature="Angle",
+          definition=function(object){
+                                      if (length(object@rad_flag) != 0)
+                                      { 
+                                       if (!object@rad_flag) 
+                                       {
+                                        warning("Object of class Angle is already expressed in degrees")
+                                        return(object)
+                                       }
+                                       if (length(object@ang) != 0)
+                                       {
+                                        object@ang <- (object@ang*180/pi)%%360
+                                        object@rad_flag <- FALSE
+                                        return(object)
+                                       }
+                                       if (length(object@ang) == 0)
+                                       {
+                                        object@rad_flag <- FALSE
+                                        return(object)
+                                       }
+                                      }
+                                      if (length(object@rad_flag) == 0)
+                                      {
+                                       warning("This object of class Angle has not been expressed in either degrees or in radians.")
+                                       return(object)
+                                      }
+                                     }
+>>>>>>> 30ffd8092ead56b9075e592c9bde207bd6bfc172
          )

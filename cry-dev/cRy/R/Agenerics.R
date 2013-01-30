@@ -80,8 +80,24 @@ setGeneric(
 
 ## For Symmetry class
 #
+<<<<<<< HEAD
 # *** [symmetry] *** 1 or 2 possible variables as input (symmetry symbol, symmetry number and symmetry setting, file name) 
 setGeneric(
            name="symmetry",
            def=function(x1,x2,...){standardGeneric("symmetry")}
           )
+=======
+# *** [degToRad] *** Convert degrees to radians. Angle object as input.
+setGeneric(
+           name="degToRad",
+           def=function(object){standardGeneric("degToRad")} 
+          )
+          
+#
+# *** [radToDeg] *** Convert radians to degrees. Angle object as input.
+setGeneric(
+           name="radToDeg",
+           def=function(object){standardGeneric("radToDeg")}
+          )
+          
+>>>>>>> 30ffd8092ead56b9075e592c9bde207bd6bfc172
