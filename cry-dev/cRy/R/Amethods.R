@@ -1980,7 +1980,6 @@ setMethod(
            # Now create Lattice object
            object <- new("Lattice",cell=cell,bl=bl)
 
-<<<<<<< HEAD
            return(object)
           }
          )
@@ -2072,8 +2071,8 @@ setMethod(
 
             # Extract cell parameters and create UnitCell object
             tmp <- lmtz$header$DCELL
-            cell <- new("UnitCell",a=tmp$a,b=tmp$b,c=tmp$c,alpha=new("Angle",ang=tmp$alpha,rad_flag=FALSE),beta=new("Angle",ang=tmp$beta,rad_flag=FALSE),
-                                                           gamma=new("Angle",ang=tmp$gamma,rad_flag=FALSE))
+            cell <- new("UnitCell",a=tmp$a,b=tmp$b,c=tmp$c,alpha=new("Angle",ang=tmp$alpha,rad_flag=FALSE),
+                         beta=new("Angle",ang=tmp$beta,rad_flag=FALSE),gamma=new("Angle",ang=tmp$gamma,rad_flag=FALSE))
 
             # Extract symmetry symbol
             tmp <- lmtz$header$SYMINF[[5]]
@@ -2085,6 +2084,46 @@ setMethod(
             # Check this is a valid symbol
             tmp <- .translate_SG(xHM,SG_in="xHM",SG_out="number")
             if (!tmp$ans) stop("The symmetry symbol string extracted from this MTZ file is not a valid symmetry symbol")
+
+            # Derive Bravais type
+            SG_name <- xHM
+            sgn <- tmp$msg
+
+            # Build bl string in two steps
+            b <- .crystal_system(sgn)
+            if (b == "TRICLINIC") b <- "a"
+            if (b == "MONOCLINIC") b <- "m"
+            if (b == "ORTHOROMBIC") b <- "o"
+            if (b == "TETRAGONAL") b <- "t"
+            if (b == "TRIGONAL") b <- "h"
+            if (b == "HEXAGONAL") b <- "h"
+            if (b == "CUBIC") b <- "c"
+            l <- substr(SG_name,1,1)
+            bbl <- paste(b,l,sep="")
+            bl <- new("BravaisType",bl=bbl)
+
+            # Finally: the Lattice object
+            object <- new("Lattice",cell=cell,bl=bl)
+
+            return(object)
+           }
+           if (.try_read_PDB(x1))                                      # PDB case
+           {
+            # Load pdb file into a named list
+            lpdb <- .readPDB(x1)
+
+            # Extract cell parameters and create UnitCell object
+            tmp <- lpdb$cryst1$cell_par
+            cell <- new("UnitCell",a=tmp[1],b=tmp[2],c=tmp[3],alpha=new("Angle",ang=tmp[4],rad_flag=FALSE),
+                         beta=new("Angle",ang=tmp[5],rad_flag=FALSE),gamma=new("Angle",ang=tmp[6],rad_flag=FALSE))
+
+            # Extract symmetry symbol
+            tmp <- lpdb$cryst1$SG
+            xHM <- .findHM(tmp)
+
+            # Check this is a valid symbol
+            tmp <- .translate_SG(xHM,SG_in="xHM",SG_out="number")
+            if (!tmp$ans) stop("The symmetry symbol string extracted from this PDB file is not a valid symmetry symbol")
 
             # Derive Bravais type
             SG_name <- xHM
@@ -2233,71 +2272,4 @@ setMethod(
 
            return(object) 
           }
-=======
-######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER ######### OTHER #########
-
-## For Angle class
-#
-# Convert an Angle object from representation in degrees to radians
-setMethod(
-          f="degToRad",
-          signature="Angle",
-          definition=function(object){
-                                      if (length(object@rad_flag) != 0)
-                                      { 
-                                       if (object@rad_flag) 
-                                       {
-                                        warning("Object of class Angle is already expressed in radians")
-                                        return(object)
-                                       }
-                                       if (length(object@ang) != 0)
-                                       {
-                                        object@ang <- (object@ang*pi/180)%%(2*pi)
-                                        object@rad_flag <- TRUE
-                                        return(object)
-                                       }
-                                       if (length(object@ang) == 0)
-                                       {
-                                        object@rad_flag <- TRUE
-                                        return(object)
-                                       }
-                                      }
-                                      if (length(object@rad_flag) == 0)
-                                      {
-                                       warning("This object of class Angle has not been expressed in either degrees or in radians.")
-                                       return(object)
-                                      }
-                                     }
-         )
-# Convert an Angle object from representation in radians to degrees
-setMethod(
-          f="radToDeg",
-          signature="Angle",
-          definition=function(object){
-                                      if (length(object@rad_flag) != 0)
-                                      { 
-                                       if (!object@rad_flag) 
-                                       {
-                                        warning("Object of class Angle is already expressed in degrees")
-                                        return(object)
-                                       }
-                                       if (length(object@ang) != 0)
-                                       {
-                                        object@ang <- (object@ang*180/pi)%%360
-                                        object@rad_flag <- FALSE
-                                        return(object)
-                                       }
-                                       if (length(object@ang) == 0)
-                                       {
-                                        object@rad_flag <- FALSE
-                                        return(object)
-                                       }
-                                      }
-                                      if (length(object@rad_flag) == 0)
-                                      {
-                                       warning("This object of class Angle has not been expressed in either degrees or in radians.")
-                                       return(object)
-                                      }
-                                     }
->>>>>>> 30ffd8092ead56b9075e592c9bde207bd6bfc172
          )
