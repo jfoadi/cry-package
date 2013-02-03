@@ -445,6 +445,131 @@
  return(sym_xHM)
 }
 
+## Get symmetry number and setting given object of class Symmetry
+#
+.getSymmetryNumber <- function(object)
+{
+ # Nothing to return if Symmetry is empty
+ if (length(object@sym_xHM) == 0) return(NULL)
+ 
+ # Get symmetry number first
+ tmp <- .translate_SG(value=object@sym_xHM,SG_in="xHM",SG_out="number")
+ if (!tmp$ans) return(tmp$msg)
+ sgn <- tmp$msg
+
+ # Count how many settings
+ nsett <- 0
+ while (tmp$ans)
+ {
+  nsett <- nsett+1
+  tmp <- .translate_SG(value=sgn,SG_in="number",SG_out="xHM",setting=nsett)
+ }
+ nsett <- nsett-1
+
+ # To finish, check which xHM symbol coincides with the one related to number and setting
+ setting <- NULL
+ for (i in 1:nsett)
+ {
+  tmp <- .translate_SG(value=sgn,SG_in="number",SG_out="xHM",setting=i)
+  if (tmp$msg == object@sym_xHM) setting <- i                    
+ }
+
+ return(c(sgn,setting))
+}
+
+## Using space group number and setting returns code related to unit cell parameters constraints
+## It is used only for monoclinic groups
+#
+.getMonoclinicConstraints <- function(sgn)
+{
+ # sgn is a vector of length 2: c(space group number,setting)
+
+ # Monoclinic constraints
+ if (sgn[1] %in% 3:15)
+ {
+  if (sgn[1] == 3)
+  {
+   if (sgn[2] == 1) idx <- 5
+   if (sgn[2] == 2) idx <- 6
+  }
+  if (sgn[1] == 4)
+  {
+   if (sgn[2] == 1) idx <- 5
+   if (sgn[2] == 2) idx <- 6
+  }
+  if (sgn[1] == 5)
+  {
+   if (sgn[2] %in% c(1:3,10,11)) idx <- 5
+   if (sgn[2] %in% 4:6) idx <- 6
+   if (sgn[2] %in% 7:9) idx <- 4
+  }
+  if (sgn[1] == 6)
+  {
+   if (sgn[2] == 1) idx <- 5
+   if (sgn[2] == 2) idx <- 6
+   if (sgn[2] == 3) idx <- 4
+  }
+  if (sgn[1] == 7)
+  {
+   if (sgn[2] %in% 1:3) idx <- 5
+   if (sgn[2] %in% 4:6) idx <- 6
+   if (sgn[2] %in% 7:9) idx <- 4
+  }
+  if (sgn[1] == 8)
+  {
+   if (sgn[2] %in% 1:3) idx <- 5
+   if (sgn[2] %in% c(4:6,10)) idx <- 6
+   if (sgn[2] %in% 7:9) idx <- 4
+  }
+  if (sgn[1] == 9)
+  {
+   if (sgn[2] %in% 1:6) idx <- 5
+   if (sgn[2] %in% 7:12) idx <- 6
+   if (sgn[2] %in% 13:18) idx <- 4
+  } 
+  if (sgn[1] == 10)
+  {
+   if (sgn[2] == 1) idx <- 5
+   if (sgn[2] == 2) idx <- 6
+   if (sgn[2] == 3) idx <- 4
+  }
+  if (sgn[1] == 11)
+  {
+   if (sgn[2] == 1) idx <- 5
+   if (sgn[2] == 2) idx <- 6
+   if (sgn[2] == 3) idx <- 4
+  }
+  if (sgn[1] == 12)
+  {
+   if (sgn[2] %in% 1:3) idx <- 5
+   if (sgn[2] %in% 4:6) idx <- 6
+   if (sgn[2] %in% 7:9) idx <- 4
+  }
+  if (sgn[1] == 13)
+  {
+   if (sgn[2] %in% 1:3) idx <- 5
+   if (sgn[2] %in% 4:6) idx <- 6
+   if (sgn[2] %in% 7:9) idx <- 4
+  }
+  if (sgn[1] == 14)
+  {
+   if (sgn[2] %in% 1:3) idx <- 5
+   if (sgn[2] %in% 4:6) idx <- 6
+   if (sgn[2] %in% 7:9) idx <- 4
+  }
+  if (sgn[1] == 15)
+  {
+   if (sgn[2] %in% 1:6) idx <- 5
+   if (sgn[2] %in% 7:12) idx <- 6
+   if (sgn[2] %in% 13:18) idx <- 4
+  }
+ }
+
+ # Trigonal constraints
+
+ return(idx)
+}
+
 
 ############# MOSTLY RELATED TO UNIT CELL, LATTICE AND FRACTIONAL/ORTHOGONAL COORDINATES (OLD lattice_dot.R) #############################
 

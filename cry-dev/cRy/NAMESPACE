@@ -2,6 +2,9 @@ exportClasses("Angle","UnitCell","ReciprocalUnitCell","BravaisType","Lattice","S
 
 exportMethods("angle","unitcell","reciprocalunitcell","bravaistype","lattice","symmetry")
 exportMethods("[","print","show","getFields","getParameters","getData")
+exportMethods("degToRad","radToDeg")
+exportMethods("computeReciprocalUnitCell","computeUnitCell","computeCellVolume")
+exportMethods("getCentringOps","checkSymmetryWithCell")
 
 ## To be deleted after package completion
-export(".translate_SG",".findHM")
+export(".translate_SG",".findHM",".extractLatticeStuff")

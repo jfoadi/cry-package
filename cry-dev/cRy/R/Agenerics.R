@@ -3,7 +3,7 @@
 ### This module is part of the cRy package for crystallography. ###
 ### Authors: J. Foadi & D. G. Waterman                          ###
 ###                                                             ###
-### All generics for methods included in methods code.          ###
+### Primary generics for methods included in methods code.      ###
 ###################################################################
 ###################################################################
 
@@ -84,15 +84,4 @@ setGeneric(
 setGeneric(
            name="symmetry",
            def=function(x1,x2,...){standardGeneric("symmetry")}
-          )
-# *** [degToRad] *** Convert degrees to radians. Angle object as input.
-setGeneric(
-           name="degToRad",
-           def=function(object){standardGeneric("degToRad")} 
-          )
-#
-# *** [radToDeg] *** Convert radians to degrees. Angle object as input.
-setGeneric(
-           name="radToDeg",
-           def=function(object){standardGeneric("radToDeg")}
           )
