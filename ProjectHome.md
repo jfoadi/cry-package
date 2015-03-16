@@ -1,0 +1,1 @@
+An R package for general crystallographic calculations, file i/o and more
